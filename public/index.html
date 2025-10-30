@@ -501,20 +501,19 @@
                     </div>
                 </div>
                 <div id="codeError" class="file-info-item" style="margin-top:10px; display:none; border-right-color: #f44336; color: #f44336;"></div>
-                <div class="upload-hint" style="margin-top:8px;">کد آپلود تیم خود را از پنل رقابت حضوری دریافت کنید</div>
+                <div class="upload-hint" style="margin-top:8px;">کد آپلود تیم خود را از پنل گیم‌جم دریافت کنید</div>
             </div>
         </div>
 
-        <div id="uploadSection" style="display:none;">
-            <div class="upload-area" id="uploadArea">
-                <div class="upload-icon">📦</div>
-                <div class="upload-text">یک فایل انتخاب کنید</div>
-                <div class="upload-hint">فایل ZIP • حداکثر ۵۱۲ مگابایت</div>
-            </div>
+        <div class="upload-area" id="uploadArea">
+            <div class="upload-icon">📦</div>
+            <div class="upload-text">یک فایل انتخاب کنید</div>
+            <div class="upload-hint">فایل ZIP • حداکثر ۵۱۲ مگابایت</div>
+        </div>
 
-            <input type="file" id="fileInput" accept=".zip">
+        <input type="file" id="fileInput" accept=".zip">
 
-            <div class="progress-container" id="progressContainer">
+        <div class="progress-container" id="progressContainer">
             <div class="progress-label">در حال آپلود...</div>
             <div class="progress-bar">
                 <div class="progress-fill" id="progressFill"></div>
@@ -523,11 +522,9 @@
         </div>
 
         <div class="result" id="result"></div>
-        </div>
     </div>
 
     <script>
-        const uploadSection = document.getElementById('uploadSection');
         const uploadArea = document.getElementById('uploadArea');
         const fileInput = document.getElementById('fileInput');
         const progressContainer = document.getElementById('progressContainer');
@@ -575,9 +572,6 @@
                 codeInput.value = uploadCode;
                 groupNameEl.style.display = 'block';
                 groupNameEl.textContent = `تیم: ${currentTeam.name}`;
-                
-                // نمایش بخش آپلود
-                uploadSection.style.display = 'block';
             }
         }
 
@@ -588,9 +582,6 @@
             verifyBtn.textContent = 'تایید';
             groupNameEl.style.display = 'none';
             codeInput.value = '';
-            
-            // مخفی کردن بخش آپلود
-            uploadSection.style.display = 'none';
         }
 
         verifyBtn.addEventListener('click', async () => {
@@ -672,29 +663,7 @@
             }
         });
 
-        async function checkStorageBeforeUpload(file) {
-            return new Promise((resolve, reject) => {
-                const formData = new FormData();
-                formData.append('file_size', file.size);
-
-                const xhr = new XMLHttpRequest();
-                xhr.addEventListener('load', () => {
-                    if (xhr.status === 200) {
-                        const response = JSON.parse(xhr.responseText);
-                        resolve(response);
-                    } else {
-                        reject(JSON.parse(xhr.responseText));
-                    }
-                });
-                xhr.addEventListener('error', () => {
-                    reject({ error: 'خطا در اتصال به سرور' });
-                });
-                xhr.open('POST', '/api/check-upload');
-                xhr.send(formData);
-            });
-        }
-
-        async function uploadFile(file, confirmed = false) {
+        function uploadFile(file) {
             if (!currentTeam || !uploadCode) {
                 showError('ابتدا کد آپلود تیم خود را تایید کنید');
                 return;
@@ -705,47 +674,9 @@
                 return;
             }
 
-            // Check storage before uploading (unless already confirmed)
-            if (!confirmed) {
-                try {
-                    const storageCheck = await checkStorageBeforeUpload(file);
-                    
-                    if (!storageCheck.can_upload) {
-                        showError('فضای ذخیره‌سازی کافی نیست');
-                        return;
-                    }
-                    
-                    if (storageCheck.needs_cleanup) {
-                        // Show warning modal
-                        const filesList = storageCheck.warning.files_to_delete
-                            .map(f => `📁 ${f.filename} (${f.size_mb.toFixed(2)} MB) - ${f.upload_time}`)
-                            .join('\n');
-                        
-                        const confirmMsg = `⚠️ فضای ذخیره‌سازی تیم شما پر است\n\n` +
-                            `حجم فعلی: ${storageCheck.storage.current_size_mb.toFixed(2)} MB\n` +
-                            `حجم فایل جدید: ${storageCheck.storage.new_file_size_mb.toFixed(2)} MB\n` +
-                            `حداکثر مجاز: ${storageCheck.storage.max_size_mb.toFixed(2)} MB\n\n` +
-                            `فایل‌های زیر به‌طور خودکار حذف خواهند شد:\n${filesList}\n\n` +
-                            `آیا مطمئن هستید؟`;
-                        
-                        if (confirm(confirmMsg)) {
-                            // User confirmed, proceed with upload
-                            uploadFile(file, true);
-                        }
-                        return;
-                    }
-                } catch (error) {
-                    showError(error.error || 'خطا در بررسی فضای ذخیره‌سازی');
-                    return;
-                }
-            }
-
             const formData = new FormData();
             const forcedName = `${uploadCode}.zip`;
             formData.append('file', file, forcedName);
-            if (confirmed) {
-                formData.append('confirmed', 'true');
-            }
 
             progressContainer.style.display = 'block';
             result.style.display = 'none';
@@ -863,10 +794,6 @@
         function showSuccess(data) {
             const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(data.filename);
             
-            // مخفی کردن بخش آپلود
-            uploadArea.style.display = 'none';
-            progressContainer.style.display = 'none';
-            
             result.innerHTML = `
                 <div class="result-box result-success">
                     <div class="result-title">
@@ -942,7 +869,6 @@
 
         function resetUpload() {
             result.style.display = 'none';
-            uploadArea.style.display = 'block';  // نمایش دوباره بخش آپلود
             fileInput.value = '';
         }
 
