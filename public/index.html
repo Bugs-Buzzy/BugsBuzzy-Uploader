@@ -17,29 +17,57 @@
             box-sizing: border-box;
         }
 
+        html {
+            overflow-x: hidden;
+        }
+
         body {
             font-family: 'Pixelify Sans', 'Unixel',  sans-serif;
             background-image: url('bkg-workshops.png');
             background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 10px;
             position: relative;
+        }
+
+        @media (min-width: 768px) {
+            body {
+                padding: 20px;
+            }
         }
 
         .container {
             background: #03394C;
             border: 4px solid #f9a825;
             border-radius: 0;
-            padding: 40px;
+            padding: 20px;
             max-width: 650px;
             width: 100%;
             box-shadow: 
                 0 0 0 4px #ff6f00,
-                8px 8px 0 0 rgba(249, 168, 37, 0.3);
+                4px 4px 0 0 rgba(249, 168, 37, 0.3);
             position: relative;
+        }
+
+        @media (max-width: 374px) {
+            .container {
+                padding: 15px;
+                border: 3px solid #f9a825;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                padding: 40px;
+                box-shadow: 
+                    0 0 0 4px #ff6f00,
+                    8px 8px 0 0 rgba(249, 168, 37, 0.3);
+            }
         }
 
         /* گوشه‌های پیکسلی */
@@ -72,13 +100,26 @@
 
         .header {
             text-align: center;
-            margin-bottom: 35px;
+            margin-bottom: 20px;
+        }
+
+        @media (min-width: 768px) {
+            .header {
+                margin-bottom: 35px;
+            }
         }
 
         .header-icon {
-            font-size: 50px;
-            margin-bottom: 15px;
+            font-size: 40px;
+            margin-bottom: 10px;
             animation: float 3s ease-in-out infinite;
+        }
+
+        @media (min-width: 768px) {
+            .header-icon {
+                font-size: 50px;
+                margin-bottom: 15px;
+            }
         }
 
         @keyframes float {
@@ -88,27 +129,50 @@
 
         h1 {
             color: #f9a825;
-            font-size: 32px;
+            font-size: 22px;
             font-weight: 700;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             text-shadow: 2px 1px 0 #ff6f00;
+            line-height: 1.3;
+        }
+
+        @media (min-width: 768px) {
+            h1 {
+                font-size: 32px;
+                margin-bottom: 10px;
+            }
         }
 
         .subtitle {
             color: #ffd54f;
-            font-size: 16px;
+            font-size: 13px;
             font-weight: 500;
+            line-height: 1.4;
+        }
+
+        @media (min-width: 768px) {
+            .subtitle {
+                font-size: 16px;
+            }
         }
 
         .upload-area {
-            border: 4px dashed #f9a825;
+            border: 3px dashed #f9a825;
             background: #012330;
-            padding: 60px 25px;
+            padding: 40px 15px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
+        }
+
+        @media (min-width: 768px) {
+            .upload-area {
+                border: 4px dashed #f9a825;
+                padding: 60px 25px;
+                margin-bottom: 25px;
+            }
         }
 
         .upload-area::before {
@@ -137,22 +201,43 @@
         }
 
         .upload-icon {
-            font-size: 60px;
-            margin-bottom: 20px;
+            font-size: 45px;
+            margin-bottom: 15px;
             filter: drop-shadow(2px 2px 0 #f9a825);
         }
 
+        @media (min-width: 768px) {
+            .upload-icon {
+                font-size: 60px;
+                margin-bottom: 20px;
+            }
+        }
+
         .upload-text {
-            font-size: 20px;
+            font-size: 16px;
             color: #ffd54f;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             font-weight: 600;
         }
 
+        @media (min-width: 768px) {
+            .upload-text {
+                font-size: 20px;
+                margin-bottom: 12px;
+            }
+        }
+
         .upload-hint {
-            font-size: 14px;
+            font-size: 12px;
             color: #90a4ae;
             font-weight: 500;
+            line-height: 1.4;
+        }
+
+        @media (min-width: 768px) {
+            .upload-hint {
+                font-size: 14px;
+            }
         }
 
         input[type="file"] {
@@ -240,12 +325,20 @@
         }
 
         .result-title {
-            font-size: 22px;
+            font-size: 18px;
             font-weight: 700;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+        }
+
+        @media (min-width: 768px) {
+            .result-title {
+                font-size: 22px;
+                margin-bottom: 15px;
+                gap: 10px;
+            }
         }
 
         .result-success .result-title {
@@ -259,17 +352,33 @@
         }
 
         .file-info {
-            margin-top: 15px;
-            font-size: 15px;
+            margin-top: 12px;
+            font-size: 13px;
+        }
+
+        @media (min-width: 768px) {
+            .file-info {
+                margin-top: 15px;
+                font-size: 15px;
+            }
         }
 
         .file-info-item {
             background: rgba(0, 0, 0, 0.3);
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-            padding: 10px;
-            margin: 8px 0;
-            border-right: 4px solid #f9a825;
+            padding: 8px 10px;
+            margin: 6px 0;
+            border-right: 3px solid #f9a825;
             color: #ffd54f;
+            word-break: break-word;
+        }
+
+        @media (min-width: 768px) {
+            .file-info-item {
+                padding: 10px;
+                margin: 8px 0;
+                border-right: 4px solid #f9a825;
+            }
         }
 
         .file-info-item strong {
@@ -285,37 +394,24 @@
             image-rendering: pixelated;
         }
 
-        .file-url-box {
-            background: #0d2626;
-            border: 3px solid #f9a825;
-            padding: 12px;
-            margin-top: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .file-url-box input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: #ffd54f;
-            font-family: 'Courier', monospace;
-            font-size: 13px;
-            outline: none;
-        }
-
         .btn {
             background: #f9a825;
             color: #1a3b3b;
             border: 3px solid #ff6f00;
-            padding: 10px 20px;
-            font-size: 16px;
+            padding: 8px 16px;
+            font-size: 14px;
             font-weight: 700;
             font-family: 'Pixelify Sans', sans-serif;
             cursor: pointer;
             transition: all 0.2s ease;
             text-transform: uppercase;
+        }
+
+        @media (min-width: 768px) {
+            .btn {
+                padding: 10px 20px;
+                font-size: 16px;
+            }
         }
 
         .btn:hover {
@@ -330,8 +426,15 @@
         }
 
         .btn-small {
-            padding: 8px 16px;
-            font-size: 13px;
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        @media (min-width: 768px) {
+            .btn-small {
+                padding: 8px 16px;
+                font-size: 13px;
+            }
         }
 
         .upload-another {
@@ -377,27 +480,41 @@
             <div class="result-box" style="background:#012330; border-color:#f9a825;">
                 <div class="result-title" style="color:#ffd54f;">
                     <span>🔐</span>
-                    <span>تایید کلید شما</span>
+                    <span>تایید کد آپلود تیم</span>
                 </div>
-                <div style="display:flex; gap:8px; align-items:center; margin-top:10px;">
-                    <input id="keyInput" type="text" placeholder="کلید خود را وارد کنید" style="flex:1; background:#0d2626; border:3px solid #f9a825; color:#ffd54f; padding:10px; font-family:'Courier', monospace;">
-                    <button id="verifyBtn" class="btn btn-small">تایید</button>
-                    <button id="logoutBtn" class="btn btn-small" style="display:none; background:#c62828; border-color:#8e0000; color:#fff;">خروج</button>
+                <div style="display:flex; flex-direction:column; gap:8px; margin-top:10px;">
+                    <input id="codeInput" type="text" placeholder="کد 8 کاراکتری تیم" maxlength="8" style="width:100%; background:#0d2626; border:3px solid #f9a825; color:#ffd54f; padding:10px; font-family:'Courier', monospace; text-transform: uppercase; font-size: 16px;">
+                    <div style="display:flex; gap:8px;">
+                        <button id="verifyBtn" class="btn btn-small" style="flex:1;">تایید</button>
+                        <button id="logoutBtn" class="btn btn-small" style="display:none; background:#c62828; border-color:#8e0000; color:#fff; flex:1;">خروج</button>
+                    </div>
                 </div>
-                <div id="keyStatus" class="file-info-item" style="margin-top:10px; display:none;"></div>
-                <div class="upload-hint" style="margin-top:8px;">نام فایل باید دقیقا برابر با کلید شما باشد (کلید.zip)</div>
+                <div id="teamInfo" style="margin-top:10px; display:none;">
+                    <div class="file-info-item" style="border-right-color: #4caf50;">
+                        <strong>تیم:</strong> <span id="teamName"></span>
+                    </div>
+                    <div class="file-info-item" style="border-right-color: #4caf50;">
+                        <strong>سرتیم:</strong> <span id="teamLeader"></span>
+                    </div>
+                    <div class="file-info-item" style="border-right-color: #4caf50;">
+                        <strong>تعداد اعضا:</strong> <span id="teamMemberCount"></span>
+                    </div>
+                </div>
+                <div id="codeError" class="file-info-item" style="margin-top:10px; display:none; border-right-color: #f44336; color: #f44336;"></div>
+                <div class="upload-hint" style="margin-top:8px;">کد آپلود تیم خود را از پنل رقابت حضوری دریافت کنید</div>
             </div>
         </div>
 
-        <div class="upload-area" id="uploadArea">
-            <div class="upload-icon">📦</div>
-            <div class="upload-text">یک فایل انتخاب کنید</div>
-            <div class="upload-hint">فایل ZIP • حداکثر ۵۱۲ مگابایت</div>
-        </div>
+        <div id="uploadSection" style="display:none;">
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-icon">📦</div>
+                <div class="upload-text">یک فایل انتخاب کنید</div>
+                <div class="upload-hint">فایل ZIP • حداکثر ۵۱۲ مگابایت</div>
+            </div>
 
-        <input type="file" id="fileInput" accept=".zip">
+            <input type="file" id="fileInput" accept=".zip">
 
-        <div class="progress-container" id="progressContainer">
+            <div class="progress-container" id="progressContainer">
             <div class="progress-label">در حال آپلود...</div>
             <div class="progress-bar">
                 <div class="progress-fill" id="progressFill"></div>
@@ -406,9 +523,11 @@
         </div>
 
         <div class="result" id="result"></div>
+        </div>
     </div>
 
     <script>
+        const uploadSection = document.getElementById('uploadSection');
         const uploadArea = document.getElementById('uploadArea');
         const fileInput = document.getElementById('fileInput');
         const progressContainer = document.getElementById('progressContainer');
@@ -416,87 +535,111 @@
         const progressText = document.getElementById('progressText');
         const result = document.getElementById('result');
         const verifyBox = document.getElementById('verifyBox');
-        const keyInput = document.getElementById('keyInput');
+        const codeInput = document.getElementById('codeInput');
         const verifyBtn = document.getElementById('verifyBtn');
         const logoutBtn = document.getElementById('logoutBtn');
-        const keyStatus = document.getElementById('keyStatus');
+        const teamInfo = document.getElementById('teamInfo');
+        const codeError = document.getElementById('codeError');
+        const teamName = document.getElementById('teamName');
+        const teamLeader = document.getElementById('teamLeader');
+        const teamMemberCount = document.getElementById('teamMemberCount');
         const groupNameEl = document.getElementById('groupName');
 
-        let currentKey = null;
-        let currentGroup = null;
-
-        // برای تولید، این مقدار را به 'https://bugsbuzzy.ir/api/token' تغییر دهید.
-        const TOKEN_API_BASE = `${location.origin}/api/token`;
+        let currentTeam = null;
+        let uploadCode = null;
 
         function refreshFromLocal() {
-            const savedKey = localStorage.getItem('bb_key');
-            const savedGroup = localStorage.getItem('bb_group');
-            if (savedKey) {
-                currentKey = savedKey;
-                currentGroup = savedGroup || '';
-                keyStatus.style.display = 'block';
-                keyStatus.style.borderRightColor = '#4caf50';
-                keyStatus.textContent = `کلید تایید شد: ${currentKey}`;
-                logoutBtn.style.display = 'inline-block';
-                verifyBtn.textContent = 'تغییر کلید';
-                keyInput.value = currentKey;
-                if (currentGroup) {
-                    groupNameEl.style.display = 'block';
-                    groupNameEl.textContent = `گروه: ${currentGroup}`;
+            const savedTeam = localStorage.getItem('bb_team');
+            const savedCode = localStorage.getItem('bb_upload_code');
+            if (savedTeam && savedCode) {
+                try {
+                    currentTeam = JSON.parse(savedTeam);
+                    uploadCode = savedCode;
+                    showTeamInfo();
+                } catch (e) {
+                    localStorage.removeItem('bb_team');
+                    localStorage.removeItem('bb_upload_code');
                 }
-            } else {
-                currentKey = null;
-                currentGroup = null;
-                keyStatus.style.display = 'none';
-                logoutBtn.style.display = 'none';
-                verifyBtn.textContent = 'تایید';
-                groupNameEl.style.display = 'none';
-                groupNameEl.textContent = '';
-                keyInput.value = '';
             }
         }
 
+        function showTeamInfo() {
+            if (currentTeam && uploadCode) {
+                teamInfo.style.display = 'block';
+                codeError.style.display = 'none';
+                teamName.textContent = currentTeam.name;
+                teamLeader.textContent = `${currentTeam.leader.first_name} ${currentTeam.leader.last_name}`;
+                teamMemberCount.textContent = currentTeam.member_count;
+                logoutBtn.style.display = 'inline-block';
+                verifyBtn.textContent = 'تغییر کد';
+                codeInput.value = uploadCode;
+                groupNameEl.style.display = 'block';
+                groupNameEl.textContent = `تیم: ${currentTeam.name}`;
+                
+                // نمایش بخش آپلود
+                uploadSection.style.display = 'block';
+            }
+        }
+
+        function hideTeamInfo() {
+            teamInfo.style.display = 'none';
+            codeError.style.display = 'none';
+            logoutBtn.style.display = 'none';
+            verifyBtn.textContent = 'تایید';
+            groupNameEl.style.display = 'none';
+            codeInput.value = '';
+            
+            // مخفی کردن بخش آپلود
+            uploadSection.style.display = 'none';
+        }
+
         verifyBtn.addEventListener('click', async () => {
-            const key = (keyInput.value || '').trim();
-            if (!key) {
-                showError('لطفاً کلید را وارد کنید');
+            const code = (codeInput.value || '').trim().toUpperCase();
+            if (!code || code.length !== 8) {
+                codeError.style.display = 'block';
+                codeError.textContent = 'کد آپلود باید 8 کاراکتر باشد';
                 return;
             }
+            
             verifyBtn.disabled = true;
+            codeError.style.display = 'none';
+            
             try {
-                const res = await fetch(`${TOKEN_API_BASE}?hash=${encodeURIComponent(key)}`);
+                const formData = new FormData();
+                formData.append('code', code);
+                
+                const res = await fetch('/api/verify-code', {
+                    method: 'POST',
+                    body: formData
+                });
+                
                 if (!res.ok) {
-                    showError('کلید نامعتبر است');
+                    const errorData = await res.json();
+                    codeError.style.display = 'block';
+                    codeError.textContent = errorData.detail || 'کد نامعتبر است';
+                    teamInfo.style.display = 'none';
                 } else {
                     const data = await res.json();
-                    const group = data.group_name || data.group || data.groupName || '';
-                    currentKey = key;
-                    currentGroup = group;
-                    localStorage.setItem('bb_key', currentKey);
-                    if (group) localStorage.setItem('bb_group', group); else localStorage.removeItem('bb_group');
-                    keyStatus.style.display = 'block';
-                    keyStatus.style.borderRightColor = '#4caf50';
-                    keyStatus.textContent = `کلید تایید شد: ${currentKey}`;
-                    logoutBtn.style.display = 'inline-block';
-                    verifyBtn.textContent = 'تغییر کلید';
-                    if (group) {
-                        groupNameEl.style.display = 'block';
-                        groupNameEl.textContent = `گروه: ${group}`;
-                    }
+                    currentTeam = data.team;
+                    uploadCode = code;
+                    localStorage.setItem('bb_team', JSON.stringify(currentTeam));
+                    localStorage.setItem('bb_upload_code', uploadCode);
+                    showTeamInfo();
                 }
             } catch (e) {
-                showError('خطا در ارتباط با سرور');
+                codeError.style.display = 'block';
+                codeError.textContent = 'خطا در ارتباط با سرور';
             } finally {
                 verifyBtn.disabled = false;
             }
         });
 
-        logoutBtn.addEventListener('click', async () => {
-            localStorage.removeItem('bb_key');
-            localStorage.removeItem('bb_group');
-            currentKey = null;
-            currentGroup = null;
-            refreshFromLocal();
+        logoutBtn.addEventListener('click', () => {
+            localStorage.removeItem('bb_team');
+            localStorage.removeItem('bb_upload_code');
+            currentTeam = null;
+            uploadCode = null;
+            hideTeamInfo();
         });
 
         window.addEventListener('load', () => {
@@ -529,9 +672,31 @@
             }
         });
 
-        function uploadFile(file) {
-            if (!currentKey) {
-                showError('ابتدا کلید خود را تایید کنید');
+        async function checkStorageBeforeUpload(file) {
+            return new Promise((resolve, reject) => {
+                const formData = new FormData();
+                formData.append('file_size', file.size);
+
+                const xhr = new XMLHttpRequest();
+                xhr.addEventListener('load', () => {
+                    if (xhr.status === 200) {
+                        const response = JSON.parse(xhr.responseText);
+                        resolve(response);
+                    } else {
+                        reject(JSON.parse(xhr.responseText));
+                    }
+                });
+                xhr.addEventListener('error', () => {
+                    reject({ error: 'خطا در اتصال به سرور' });
+                });
+                xhr.open('POST', '/api/check-upload');
+                xhr.send(formData);
+            });
+        }
+
+        async function uploadFile(file, confirmed = false) {
+            if (!currentTeam || !uploadCode) {
+                showError('ابتدا کد آپلود تیم خود را تایید کنید');
                 return;
             }
             const validationError = validateFile(file);
@@ -540,9 +705,47 @@
                 return;
             }
 
+            // Check storage before uploading (unless already confirmed)
+            if (!confirmed) {
+                try {
+                    const storageCheck = await checkStorageBeforeUpload(file);
+                    
+                    if (!storageCheck.can_upload) {
+                        showError('فضای ذخیره‌سازی کافی نیست');
+                        return;
+                    }
+                    
+                    if (storageCheck.needs_cleanup) {
+                        // Show warning modal
+                        const filesList = storageCheck.warning.files_to_delete
+                            .map(f => `📁 ${f.filename} (${f.size_mb.toFixed(2)} MB) - ${f.upload_time}`)
+                            .join('\n');
+                        
+                        const confirmMsg = `⚠️ فضای ذخیره‌سازی تیم شما پر است\n\n` +
+                            `حجم فعلی: ${storageCheck.storage.current_size_mb.toFixed(2)} MB\n` +
+                            `حجم فایل جدید: ${storageCheck.storage.new_file_size_mb.toFixed(2)} MB\n` +
+                            `حداکثر مجاز: ${storageCheck.storage.max_size_mb.toFixed(2)} MB\n\n` +
+                            `فایل‌های زیر به‌طور خودکار حذف خواهند شد:\n${filesList}\n\n` +
+                            `آیا مطمئن هستید؟`;
+                        
+                        if (confirm(confirmMsg)) {
+                            // User confirmed, proceed with upload
+                            uploadFile(file, true);
+                        }
+                        return;
+                    }
+                } catch (error) {
+                    showError(error.error || 'خطا در بررسی فضای ذخیره‌سازی');
+                    return;
+                }
+            }
+
             const formData = new FormData();
-            const forcedName = `${currentKey}.zip`;
+            const forcedName = `${uploadCode}.zip`;
             formData.append('file', file, forcedName);
+            if (confirmed) {
+                formData.append('confirmed', 'true');
+            }
 
             progressContainer.style.display = 'block';
             result.style.display = 'none';
@@ -602,9 +805,9 @@
         }
 
         function sendWithOverwrite(file) {
-            if (!currentKey) return;
+            if (!currentTeam || !uploadCode) return;
             const formData = new FormData();
-            const forcedName = `${currentKey}.zip`;
+            const forcedName = `${uploadCode}.zip`;
             formData.append('file', file, forcedName);
 
             progressContainer.style.display = 'block';
@@ -660,6 +863,10 @@
         function showSuccess(data) {
             const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(data.filename);
             
+            // مخفی کردن بخش آپلود
+            uploadArea.style.display = 'none';
+            progressContainer.style.display = 'none';
+            
             result.innerHTML = `
                 <div class="result-box result-success">
                     <div class="result-title">
@@ -673,11 +880,20 @@
                         <div class="file-info-item">
                             <strong>حجم:</strong>${formatBytes(data.size)}
                         </div>
+                        <div class="file-info-item" style="border-right-color: #4caf50; color: #4caf50;">
+                            ✓ فایل با موفقیت ذخیره شد
+                        </div>
                     </div>
-                    ${isImage ? `<img src="${data.url}" class="preview-image" alt="پیش‌نمایش">` : ''}
-                    <div class="file-url-box">
-                        <input type="text" value="${data.url}" readonly id="fileUrl">
-                        <button class="btn btn-small" onclick="copyUrl()">کپی</button>
+                    <div class="bg-primary-midnight rounded p-4 mt-4 border border-primary-cerulean" style="background: #0d2626; border: 3px solid #f9a825; padding: 10px; margin-top: 12px;">
+                        <p style="color: #ffd54f; font-size: 13px; margin-bottom: 8px; font-weight: 600;">🔐 هش فایل (SHA-256):</p>
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <input type="text" value="${data.hash}" readonly id="fileHash" 
+                                   style="width: 100%; background: #012330; border: 2px solid #f9a825; color: #ffd54f; padding: 8px; font-family: 'Courier', monospace; font-size: 11px; outline: none; border-radius: 0; word-break: break-all;">
+                            <button class="btn btn-small" onclick="copyHash()" style="width: 100%;">کپی هش</button>
+                        </div>
+                        <p style="color: #90a4ae; font-size: 11px; margin-top: 8px; line-height: 1.4;">
+                            این هش را در فرم سابمیشن خود وارد کنید
+                        </p>
                     </div>
                     <div class="upload-another">
                         <button class="btn" onclick="resetUpload()">آپلود فایل جدید</button>
@@ -707,15 +923,26 @@
             result.style.display = 'block';
         }
 
-        function copyUrl() {
-            const urlInput = document.getElementById('fileUrl');
-            urlInput.select();
+        function copyHash() {
+            const hashInput = document.getElementById('fileHash');
+            hashInput.select();
             document.execCommand('copy');
-            alert('لینک کپی شد! ✓');
+            
+            // نمایش پیام موفقیت
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.textContent = '✓ کپی شد';
+            btn.style.background = '#4caf50';
+            
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.background = '#f9a825';
+            }, 2000);
         }
 
         function resetUpload() {
             result.style.display = 'none';
+            uploadArea.style.display = 'block';  // نمایش دوباره بخش آپلود
             fileInput.value = '';
         }
 

@@ -251,3 +251,6 @@ htmlcov/
 .env
 *.env
 secrets.toml
+
+uploads/**
+!uploads/.gitkeep

@@ -1,0 +1,30 @@
+services:
+  uploader:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bugsbuzzy-uploader
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+    environment:
+      - SECRET_KEY=${SECRET_KEY:-change-me-in-production-please}
+      - BACKEND_URL=${BACKEND_URL:-https://bugsbuzzy.ir/api}
+    volumes:
+      - ./uploads:/app/uploads
+    networks:
+      - bugsbuzzy-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  bugsbuzzy-network:
+    driver: bridge
+
+volumes:
+  uploads:
+    driver: local
