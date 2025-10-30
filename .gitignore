@@ -205,3 +205,49 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+
+# بایت‌کد و فایل‌های کش پایتون
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# فولدرهای محیط مجازی (Virtual Environment)
+.venv
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# فایل‌های مربوط به سیستم‌عامل
+.DS_Store
+Thumbs.db
+
+# فایل‌های مربوط به IDEها و ادیتورها
+.idea/
+.vscode/
+*.iml
+.project
+.classpath
+
+# فایل‌های مربوط به دیتابیس محلی
+*.sqlite3
+*.db
+
+# فایل‌های مربوط به تست و Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# فایل‌های لاگ (Log)
+*.log
+
+# فایل‌های مربوط به داکر (اگر ایمیج رو ساختی و نمیخوای پوش بشه)
+# docker-image.tar
+
+# فایل‌های حساس (مثل کلیدهای API)
+.env
+*.env
+secrets.toml

@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>آپلود فایل - BugsBuzzy</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&display=swap');
+
+        @font-face {
+            font-family: 'Unixel';
+            src: url('unixel.woff');
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Pixelify Sans', 'Unixel',  sans-serif;
+            background-image: url('bkg-workshops.png');
+            background-size: cover;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        .container {
+            background: #03394C;
+            border: 4px solid #f9a825;
+            border-radius: 0;
+            padding: 40px;
+            max-width: 650px;
+            width: 100%;
+            box-shadow: 
+                0 0 0 4px #ff6f00,
+                8px 8px 0 0 rgba(249, 168, 37, 0.3);
+            position: relative;
+        }
+
+        /* گوشه‌های پیکسلی */
+        .container::before,
+        .container::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: #f9a825;
+        }
+
+        .container::before {
+            top: -4px;
+            right: -4px;
+            box-shadow: 
+                0 0 0 4px #ff6f00,
+                -4px 0 0 0 #f9a825,
+                0 4px 0 0 #f9a825;
+        }
+
+        .container::after {
+            bottom: -4px;
+            left: -4px;
+            box-shadow: 
+                0 0 0 4px #ff6f00,
+                4px 0 0 0 #f9a825,
+                0 -4px 0 0 #f9a825;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .header-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 {
+            color: #f9a825;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 1px 0 #ff6f00;
+        }
+
+        .subtitle {
+            color: #ffd54f;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .upload-area {
+            border: 4px dashed #f9a825;
+            background: #012330;
+            padding: 60px 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .upload-area::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            right: 8px;
+            bottom: 8px;
+            border: 2px dashed rgba(249, 168, 37, 0.3);
+            pointer-events: none;
+        }
+
+        .upload-area:hover {
+            background: #012330;
+            border-color: #ffd54f;
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0 0 #f9a825;
+        }
+
+        .upload-area.dragover {
+            background: #1a4040;
+            border-color: #ff6f00;
+            border-style: solid;
+            transform: scale(1.02);
+        }
+
+        .upload-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            filter: drop-shadow(2px 2px 0 #f9a825);
+        }
+
+        .upload-text {
+            font-size: 20px;
+            color: #ffd54f;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .upload-hint {
+            font-size: 14px;
+            color: #90a4ae;
+            font-weight: 500;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .progress-container {
+            display: none;
+            margin-bottom: 20px;
+        }
+
+        .progress-label {
+            color: #ffd54f;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 32px;
+            background: #0d2626;
+            border: 3px solid #f9a825;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: repeating-linear-gradient(
+                90deg,
+                #f9a825 0px,
+                #f9a825 8px,
+                #ff6f00 8px,
+                #ff6f00 16px
+            );
+            width: 0%;
+            transition: width 0.3s ease;
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '▶';
+            position: absolute;
+            left: -8px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #fff;
+            font-size: 16px;
+            animation: blink 0.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 12px;
+            color: #ffd54f;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .result {
+            display: none;
+        }
+
+        .result-box {
+            border: 4px solid #f9a825;
+            padding: 25px;
+            position: relative;
+        }
+
+        .result-success {
+            background: #1a4040;
+            border-color: #4caf50;
+        }
+
+        .result-error {
+            background: #4a1a1a;
+            border-color: #f44336;
+        }
+
+        .result-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .result-success .result-title {
+            color: #4caf50;
+            text-shadow: 2px 2px 0 #2e7d32;
+        }
+
+        .result-error .result-title {
+            color: #f44336;
+            text-shadow: 2px 2px 0 #c62828;
+        }
+
+        .file-info {
+            margin-top: 15px;
+            font-size: 15px;
+        }
+
+        .file-info-item {
+            background: rgba(0, 0, 0, 0.3);
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            padding: 10px;
+            margin: 8px 0;
+            border-right: 4px solid #f9a825;
+            color: #ffd54f;
+        }
+
+        .file-info-item strong {
+            color: #f9a825;
+            margin-left: 8px;
+        }
+
+        .preview-image {
+            max-width: 100%;
+            max-height: 250px;
+            margin-top: 18px;
+            border: 4px solid #f9a825;
+            image-rendering: pixelated;
+        }
+
+        .file-url-box {
+            background: #0d2626;
+            border: 3px solid #f9a825;
+            padding: 12px;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .file-url-box input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #ffd54f;
+            font-family: 'Courier', monospace;
+            font-size: 13px;
+            outline: none;
+        }
+
+        .btn {
+            background: #f9a825;
+            color: #1a3b3b;
+            border: 3px solid #ff6f00;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: 700;
+            font-family: 'Pixelify Sans', sans-serif;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+        }
+
+        .btn:hover {
+            background: #ffd54f;
+            transform: translate(-2px, -2px);
+            box-shadow: 3px 3px 0 0 #ff6f00;
+        }
+
+        .btn:active {
+            transform: translate(0, 0);
+            box-shadow: none;
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 13px;
+        }
+
+        .upload-another {
+            font-family: 'Unixel',  sans-serif;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        /* دکمه ورود */
+        .login-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #f9a825;
+            color: #1a3b3b;
+            border: 3px solid #ff6f00;
+            padding: 10px 25px;
+            font-size: 16px;
+            font-weight: 700;
+            font-family: 'Pixelify Sans', sans-serif;
+            cursor: pointer;
+            z-index: 999;
+            box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.3);
+        }
+
+        .login-btn:hover {
+            background: #ffd54f;
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 0 rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-icon">📤</div>
+            <h1>سرویس آپلود فایل باگزبازی</h1>
+            <p class="subtitle">فایل خود را بکشید و رها کنید یا کلیک کنید</p>
+            <p id="groupName" class="subtitle" style="margin-top:6px; color:#c5e1a5; display:none;"></p>
+        </div>
+
+        <div id="verifyBox" class="result" style="display:block; margin-bottom: 16px;">
+            <div class="result-box" style="background:#012330; border-color:#f9a825;">
+                <div class="result-title" style="color:#ffd54f;">
+                    <span>🔐</span>
+                    <span>تایید کلید شما</span>
+                </div>
+                <div style="display:flex; gap:8px; align-items:center; margin-top:10px;">
+                    <input id="keyInput" type="text" placeholder="کلید خود را وارد کنید" style="flex:1; background:#0d2626; border:3px solid #f9a825; color:#ffd54f; padding:10px; font-family:'Courier', monospace;">
+                    <button id="verifyBtn" class="btn btn-small">تایید</button>
+                    <button id="logoutBtn" class="btn btn-small" style="display:none; background:#c62828; border-color:#8e0000; color:#fff;">خروج</button>
+                </div>
+                <div id="keyStatus" class="file-info-item" style="margin-top:10px; display:none;"></div>
+                <div class="upload-hint" style="margin-top:8px;">نام فایل باید دقیقا برابر با کلید شما باشد (کلید.zip)</div>
+            </div>
+        </div>
+
+        <div class="upload-area" id="uploadArea">
+            <div class="upload-icon">📦</div>
+            <div class="upload-text">یک فایل انتخاب کنید</div>
+            <div class="upload-hint">فایل ZIP • حداکثر ۵۱۲ مگابایت</div>
+        </div>
+
+        <input type="file" id="fileInput" accept=".zip">
+
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-label">در حال آپلود...</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">0٪</div>
+        </div>
+
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        const result = document.getElementById('result');
+        const verifyBox = document.getElementById('verifyBox');
+        const keyInput = document.getElementById('keyInput');
+        const verifyBtn = document.getElementById('verifyBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const keyStatus = document.getElementById('keyStatus');
+        const groupNameEl = document.getElementById('groupName');
+
+        let currentKey = null;
+        let currentGroup = null;
+
+        // برای تولید، این مقدار را به 'https://bugsbuzzy.ir/api/token' تغییر دهید.
+        const TOKEN_API_BASE = `${location.origin}/api/token`;
+
+        function refreshFromLocal() {
+            const savedKey = localStorage.getItem('bb_key');
+            const savedGroup = localStorage.getItem('bb_group');
+            if (savedKey) {
+                currentKey = savedKey;
+                currentGroup = savedGroup || '';
+                keyStatus.style.display = 'block';
+                keyStatus.style.borderRightColor = '#4caf50';
+                keyStatus.textContent = `کلید تایید شد: ${currentKey}`;
+                logoutBtn.style.display = 'inline-block';
+                verifyBtn.textContent = 'تغییر کلید';
+                keyInput.value = currentKey;
+                if (currentGroup) {
+                    groupNameEl.style.display = 'block';
+                    groupNameEl.textContent = `گروه: ${currentGroup}`;
+                }
+            } else {
+                currentKey = null;
+                currentGroup = null;
+                keyStatus.style.display = 'none';
+                logoutBtn.style.display = 'none';
+                verifyBtn.textContent = 'تایید';
+                groupNameEl.style.display = 'none';
+                groupNameEl.textContent = '';
+                keyInput.value = '';
+            }
+        }
+
+        verifyBtn.addEventListener('click', async () => {
+            const key = (keyInput.value || '').trim();
+            if (!key) {
+                showError('لطفاً کلید را وارد کنید');
+                return;
+            }
+            verifyBtn.disabled = true;
+            try {
+                const res = await fetch(`${TOKEN_API_BASE}?hash=${encodeURIComponent(key)}`);
+                if (!res.ok) {
+                    showError('کلید نامعتبر است');
+                } else {
+                    const data = await res.json();
+                    const group = data.group_name || data.group || data.groupName || '';
+                    currentKey = key;
+                    currentGroup = group;
+                    localStorage.setItem('bb_key', currentKey);
+                    if (group) localStorage.setItem('bb_group', group); else localStorage.removeItem('bb_group');
+                    keyStatus.style.display = 'block';
+                    keyStatus.style.borderRightColor = '#4caf50';
+                    keyStatus.textContent = `کلید تایید شد: ${currentKey}`;
+                    logoutBtn.style.display = 'inline-block';
+                    verifyBtn.textContent = 'تغییر کلید';
+                    if (group) {
+                        groupNameEl.style.display = 'block';
+                        groupNameEl.textContent = `گروه: ${group}`;
+                    }
+                }
+            } catch (e) {
+                showError('خطا در ارتباط با سرور');
+            } finally {
+                verifyBtn.disabled = false;
+            }
+        });
+
+        logoutBtn.addEventListener('click', async () => {
+            localStorage.removeItem('bb_key');
+            localStorage.removeItem('bb_group');
+            currentKey = null;
+            currentGroup = null;
+            refreshFromLocal();
+        });
+
+        window.addEventListener('load', () => {
+            refreshFromLocal();
+        });
+
+        uploadArea.addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                uploadFile(e.target.files[0]);
+            }
+        });
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            
+            if (e.dataTransfer.files.length > 0) {
+                uploadFile(e.dataTransfer.files[0]);
+            }
+        });
+
+        function uploadFile(file) {
+            if (!currentKey) {
+                showError('ابتدا کلید خود را تایید کنید');
+                return;
+            }
+            const validationError = validateFile(file);
+            if (validationError) {
+                showError(validationError);
+                return;
+            }
+
+            const formData = new FormData();
+            const forcedName = `${currentKey}.zip`;
+            formData.append('file', file, forcedName);
+
+            progressContainer.style.display = 'block';
+            result.style.display = 'none';
+            progressFill.style.width = '0%';
+
+            const xhr = new XMLHttpRequest();
+
+            xhr.upload.addEventListener('progress', (e) => {
+                if (e.lengthComputable) {
+                    const percent = (e.loaded / e.total) * 100;
+                    progressFill.style.width = percent + '%';
+                    progressText.textContent = `${Math.round(percent)}٪`;
+                }
+            });
+
+            xhr.addEventListener('load', () => {
+                progressContainer.style.display = 'none';
+                
+                if (xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    showSuccess(response);
+                } else if (xhr.status === 409) {
+                    const error = JSON.parse(xhr.responseText);
+                    result.innerHTML = `
+                        <div class="result-box result-error">
+                            <div class="result-title">
+                                <span>!</span>
+                                <span>فایل موجود است</span>
+                            </div>
+                            <div class="file-info">
+                                <div class="file-info-item" style="border-right-color: #f9a825;">
+                                    ${error.error}
+                                </div>
+                            </div>
+                            <div class="upload-another">
+                                <button class="btn" id="confirmOverwriteBtn">تایید و جایگزینی</button>
+                            </div>
+                        </div>
+                    `;
+                    result.style.display = 'block';
+                    document.getElementById('confirmOverwriteBtn').addEventListener('click', () => {
+                        sendWithOverwrite(file);
+                    });
+                } else {
+                    const error = JSON.parse(xhr.responseText);
+                    showError(error.error || 'آپلود ناموفق بود');
+                }
+            });
+
+            xhr.addEventListener('error', () => {
+                progressContainer.style.display = 'none';
+                showError('خطا در اتصال به سرور');
+            });
+
+            xhr.open('POST', '/api/upload');
+            xhr.send(formData);
+        }
+
+        function sendWithOverwrite(file) {
+            if (!currentKey) return;
+            const formData = new FormData();
+            const forcedName = `${currentKey}.zip`;
+            formData.append('file', file, forcedName);
+
+            progressContainer.style.display = 'block';
+            result.style.display = 'none';
+            progressFill.style.width = '0%';
+
+            const xhr = new XMLHttpRequest();
+            xhr.upload.addEventListener('progress', (e) => {
+                if (e.lengthComputable) {
+                    const percent = (e.loaded / e.total) * 100;
+                    progressFill.style.width = percent + '%';
+                    progressText.textContent = `${Math.round(percent)}٪`;
+                }
+            });
+            xhr.addEventListener('load', () => {
+                progressContainer.style.display = 'none';
+                if (xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    showSuccess(response);
+                } else {
+                    const error = JSON.parse(xhr.responseText);
+                    showError(error.error || 'آپلود ناموفق بود');
+                }
+            });
+            xhr.addEventListener('error', () => {
+                progressContainer.style.display = 'none';
+                showError('خطا در اتصال به سرور');
+            });
+            xhr.open('POST', '/api/upload?overwrite=1');
+            xhr.send(formData);
+        }
+
+        function validateFile(file) {
+            const maxSize = 512 * 1024 * 1024;
+            if (file.size > maxSize) {
+                return `حجم فایل بیش از حد مجاز است! حداکثر: 512 مگابایت`;
+            }
+
+            const fileExtension = file.name.split('.').pop().toLowerCase();
+            const fileMimeType = file.type;
+
+            if (fileExtension !== 'zip') {
+                return `فقط فایل های ZIP مجاز هستند!`;
+            }
+
+            if (fileMimeType && !['application/zip', 'application/x-zip-compressed'].includes(fileMimeType)) {
+                return `نوع فایل مجاز نیست! لطفا فایل ZIP معتبر آپلود کنید.`;
+            }
+
+            return null;
+        }
+
+        function showSuccess(data) {
+            const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(data.filename);
+            
+            result.innerHTML = `
+                <div class="result-box result-success">
+                    <div class="result-title">
+                        <span>✓</span>
+                        <span>آپلود موفق!</span>
+                    </div>
+                    <div class="file-info">
+                        <div class="file-info-item">
+                            <strong>نام فایل:</strong>${data.originalName}
+                        </div>
+                        <div class="file-info-item">
+                            <strong>حجم:</strong>${formatBytes(data.size)}
+                        </div>
+                    </div>
+                    ${isImage ? `<img src="${data.url}" class="preview-image" alt="پیش‌نمایش">` : ''}
+                    <div class="file-url-box">
+                        <input type="text" value="${data.url}" readonly id="fileUrl">
+                        <button class="btn btn-small" onclick="copyUrl()">کپی</button>
+                    </div>
+                    <div class="upload-another">
+                        <button class="btn" onclick="resetUpload()">آپلود فایل جدید</button>
+                    </div>
+                </div>
+            `;
+            result.style.display = 'block';
+        }
+
+        function showError(message) {
+            result.innerHTML = `
+                <div class="result-box result-error">
+                    <div class="result-title">
+                        <span>✗</span>
+                        <span>خطا در آپلود</span>
+                    </div>
+                    <div class="file-info">
+                        <div class="file-info-item" style="border-right-color: #f44336;">
+                            ${message}
+                        </div>
+                    </div>
+                    <div class="upload-another">
+                        <button class="btn" onclick="resetUpload()">تلاش مجدد</button>
+                    </div>
+                </div>
+            `;
+            result.style.display = 'block';
+        }
+
+        function copyUrl() {
+            const urlInput = document.getElementById('fileUrl');
+            urlInput.select();
+            document.execCommand('copy');
+            alert('لینک کپی شد! ✓');
+        }
+
+        function resetUpload() {
+            result.style.display = 'none';
+            fileInput.value = '';
+        }
+
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 بایت';
+            const k = 1024;
+            const sizes = ['بایت', 'کیلوبایت', 'مگابایت', 'گیگابایت'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+        }
+    </script>
+</body>
+</html>
