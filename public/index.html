@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>آپلود فایل - BugsBuzzy</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&display=swap');
-
         @font-face {
-            font-family: 'Unixel';
-            src: url('unixel.woff');
+            font-family: 'IRANSansX';
+            src: url('IRANSansX-Black.woff2') format('woff2');
+            font-weight: 900;
+            font-style: normal;
+            font-display: swap;
         }
         * {
             margin: 0;
@@ -22,7 +23,7 @@
         }
 
         body {
-            font-family: 'Pixelify Sans', 'Unixel',  sans-serif;
+            font-family: 'IRANSansX', sans-serif;
             background-image: url('bkg-workshops.png');
             background-size: cover;
             background-position: center;
@@ -132,7 +133,6 @@
             font-size: 22px;
             font-weight: 700;
             margin-bottom: 8px;
-            text-shadow: 2px 1px 0 #ff6f00;
             line-height: 1.3;
         }
 
@@ -154,6 +154,137 @@
             .subtitle {
                 font-size: 16px;
             }
+        }
+
+        /* Quota indicator */
+        .quota-indicator {
+            background: #012330;
+            border: 3px solid #f9a825;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .quota-text {
+            color: #ffd54f;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .quota-bar {
+            width: 100%;
+            height: 24px;
+            background: #0d2626;
+            border: 3px solid #f9a825;
+            position: relative;
+            overflow: hidden;
+            direction: ltr;
+        }
+
+        .quota-fill {
+            height: 100%;
+            background: repeating-linear-gradient(
+                90deg,
+                #4caf50 0px,
+                #4caf50 8px,
+                #2e7d32 8px,
+                #2e7d32 16px
+            );
+            width: 0%;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 1px 1px 0 rgba(0,0,0,0.5);
+        }
+
+        .quota-value {
+            color: #ffd54f;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        /* File Manager */
+        .file-manager {
+            background: #012330;
+            border: 3px solid #f9a825;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .file-manager-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .file-manager-title {
+            color: #ffd54f;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .file-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 450px;
+            overflow-y: auto;
+        }
+
+        .file-item {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid #f9a825;
+            padding: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .file-item-info {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .file-item-number {
+            color: #f9a825;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .file-item-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .file-item-date {
+            color: #90a4ae;
+            font-size: 11px;
+            font-family: 'Courier', monospace;
+        }
+
+        .file-item-size {
+            color: #ffd54f;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .file-item-actions {
+            display: flex;
+            gap: 5px;
         }
 
         .upload-area {
@@ -365,7 +496,7 @@
 
         .file-info-item {
             background: rgba(0, 0, 0, 0.3);
-            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-family: 'IRANSansX', sans-serif;
             padding: 8px 10px;
             margin: 6px 0;
             border-right: 3px solid #f9a825;
@@ -386,14 +517,6 @@
             margin-left: 8px;
         }
 
-        .preview-image {
-            max-width: 100%;
-            max-height: 250px;
-            margin-top: 18px;
-            border: 4px solid #f9a825;
-            image-rendering: pixelated;
-        }
-
         .btn {
             background: #f9a825;
             color: #1a3b3b;
@@ -401,7 +524,7 @@
             padding: 8px 16px;
             font-size: 14px;
             font-weight: 700;
-            font-family: 'Pixelify Sans', sans-serif;
+            font-family: 'IRANSansX', sans-serif;
             cursor: pointer;
             transition: all 0.2s ease;
             text-transform: uppercase;
@@ -417,7 +540,13 @@
         .btn:hover {
             background: #ffd54f;
             transform: translate(-2px, -2px);
-            box-shadow: 3px 3px 0 0 #ff6f00;
+            box-shadow: 1px 1px 0 0 #ff6f00;
+        }
+
+        .btn-danger:hover {
+            background: #ffd54f;
+            transform: translate(-2px, -2px);
+            box-shadow: 1px 1px 0 0 #8e0000 !important;
         }
 
         .btn:active {
@@ -437,37 +566,190 @@
             }
         }
 
+        .btn-danger {
+            background: #c62828;
+            border-color: #8e0000;
+            color: #fff;
+        }
+
+        .btn-danger:hover {
+            background: #f44336;
+        }
+
         .upload-another {
-            font-family: 'Unixel',  sans-serif;
+            font-family: 'IRANSansX', sans-serif;
             margin-top: 20px;
             text-align: center;
         }
 
-        /* دکمه ورود */
-        .login-btn {
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            background: #03394C;
+            border: 4px solid #f9a825;
+            padding: 25px;
+            max-width: 450px;
+            width: 100%;
+            position: relative;
+            animation: modalSlide 0.3s ease;
+        }
+
+        @keyframes modalSlide {
+            from {
+                transform: scale(0.8) translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            color: #ffd54f;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #ffd54f;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            color: #f44336;
+        }
+
+        .modal-content {
+            color: #ffd54f;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            justify-content: flex-end;
+        }
+
+        /* Toast notifications */
+        .toast {
             position: fixed;
             top: 20px;
             right: 20px;
-            background: #f9a825;
-            color: #1a3b3b;
-            border: 3px solid #ff6f00;
-            padding: 10px 25px;
-            font-size: 16px;
-            font-weight: 700;
-            font-family: 'Pixelify Sans', sans-serif;
-            cursor: pointer;
-            z-index: 999;
-            box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.3);
+            background: #03394C;
+            border: 3px solid #f9a825;
+            padding: 15px 20px;
+            min-width: 300px;
+            z-index: 2000;
+            animation: toastSlide 0.3s ease;
         }
 
-        .login-btn:hover {
-            background: #ffd54f;
-            transform: translate(-2px, -2px);
-            box-shadow: 6px 6px 0 0 rgba(0, 0, 0, 0.3);
+        @keyframes toastSlide {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .toast.hide {
+            animation: toastSlideOut 0.3s ease;
+        }
+
+        @keyframes toastSlideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+        }
+
+        .toast-success {
+            border-color: #4caf50;
+            background: #1a4040;
+        }
+
+        .toast-error {
+            border-color: #f44336;
+            background: #4a1a1a;
+        }
+
+        .toast-title {
+            color: #ffd54f;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .toast-message {
+            color: #ffd54f;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
+    <!-- Modal for file hash -->
+    <div class="modal-overlay" id="hashModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">🔐 هش فایل (SHA-256)</div>
+                <button class="modal-close" onclick="closeHashModal()">×</button>
+            </div>
+            <div class="modal-content">
+                <input type="text" id="fileHashInput" readonly 
+                       style="width: 100%; background: #012330; border: 2px solid #f9a825; color: #ffd54f; padding: 10px; font-family: 'Courier', monospace; font-size: 11px; outline: none; border-radius: 0; word-break: break-all; margin-bottom: 15px;">
+                <p style="color: #90a4ae; font-size: 11px; line-height: 1.4; margin-bottom: 15px;">
+                    این هش را در فرم سابمیشن خود وارد کنید
+                </p>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-small" onclick="copyHashAndClose()">کپی هش</button>
+                <button class="btn btn-small" onclick="closeHashModal()">بستن</button>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <div class="header">
             <div class="header-icon">📤</div>
@@ -476,6 +758,7 @@
             <p id="groupName" class="subtitle" style="margin-top:6px; color:#c5e1a5; display:none;"></p>
         </div>
 
+        <!-- Verify code box -->
         <div id="verifyBox" class="result" style="display:block; margin-bottom: 16px;">
             <div class="result-box" style="background:#012330; border-color:#f9a825;">
                 <div class="result-title" style="color:#ffd54f;">
@@ -486,7 +769,7 @@
                     <input id="codeInput" type="text" placeholder="کد 8 کاراکتری تیم" maxlength="8" style="width:100%; background:#0d2626; border:3px solid #f9a825; color:#ffd54f; padding:10px; font-family:'Courier', monospace; text-transform: uppercase; font-size: 16px;">
                     <div style="display:flex; gap:8px;">
                         <button id="verifyBtn" class="btn btn-small" style="flex:1;">تایید</button>
-                        <button id="logoutBtn" class="btn btn-small" style="display:none; background:#c62828; border-color:#8e0000; color:#fff; flex:1;">خروج</button>
+                        <button id="logoutBtn" class="btn btn-danger btn-small" style="display:none; background:#c62828; border-color:#8e0000; color:#fff; flex:1;">خروج</button>
                     </div>
                 </div>
                 <div id="teamInfo" style="margin-top:10px; display:none;">
@@ -505,10 +788,33 @@
             </div>
         </div>
 
-        <div class="upload-area" id="uploadArea">
+        <!-- Quota indicator -->
+        <div id="quotaIndicator" class="quota-indicator" style="display:none;">
+            <div class="quota-text">💾 فضای باقیمانده تیم</div>
+            <div class="quota-bar">
+                <div class="quota-fill" id="quotaFill"></div>
+            </div>
+            <div class="quota-value" id="quotaValue"></div>
+        </div>
+
+        <!-- File Manager -->
+        <div id="fileManager" class="file-manager">
+            <div class="file-manager-header">
+                <div class="file-manager-title">📁 مدیریت فایل‌ها</div>
+                <button class="btn btn-small" onclick="refreshFileManager()">🔄 بروزرسانی</button>
+            </div>
+            <div id="fileList" class="file-list">
+                <div style="text-align: center; color: #90a4ae; padding: 20px;">
+                    در حال بارگذاری...
+                </div>
+            </div>
+        </div>
+
+        <!-- Upload area -->
+        <div class="upload-area" id="uploadArea" style="display:none;">
             <div class="upload-icon">📦</div>
             <div class="upload-text">یک فایل انتخاب کنید</div>
-            <div class="upload-hint">فایل ZIP • حداکثر ۵۱۲ مگابایت</div>
+            <div class="upload-hint">فایل ZIP • حداکثر ظرفیت تیم ۱ گیگابایت</div>
         </div>
 
         <input type="file" id="fileInput" accept=".zip">
@@ -541,9 +847,17 @@
         const teamLeader = document.getElementById('teamLeader');
         const teamMemberCount = document.getElementById('teamMemberCount');
         const groupNameEl = document.getElementById('groupName');
+        const quotaIndicator = document.getElementById('quotaIndicator');
+        const quotaFill = document.getElementById('quotaFill');
+        const quotaValue = document.getElementById('quotaValue');
+        const fileManager = document.getElementById('fileManager');
+        const fileList = document.getElementById('fileList');
+        const hashModal = document.getElementById('hashModal');
+        const fileHashInput = document.getElementById('fileHashInput');
 
         let currentTeam = null;
         let uploadCode = null;
+        let autoHideTimeout = null;
 
         function refreshFromLocal() {
             const savedTeam = localStorage.getItem('bb_team');
@@ -553,6 +867,8 @@
                     currentTeam = JSON.parse(savedTeam);
                     uploadCode = savedCode;
                     showTeamInfo();
+                    loadTeamStats();
+                    loadFileList();
                 } catch (e) {
                     localStorage.removeItem('bb_team');
                     localStorage.removeItem('bb_upload_code');
@@ -572,6 +888,9 @@
                 codeInput.value = uploadCode;
                 groupNameEl.style.display = 'block';
                 groupNameEl.textContent = `تیم: ${currentTeam.name}`;
+                quotaIndicator.style.display = 'block';
+                fileManager.style.display = 'block';
+                uploadArea.style.display = 'block';
             }
         }
 
@@ -582,18 +901,134 @@
             verifyBtn.textContent = 'تایید';
             groupNameEl.style.display = 'none';
             codeInput.value = '';
+            quotaIndicator.style.display = 'none';
+            fileManager.style.display = 'none';
+            uploadArea.style.display = 'none';
+        }
+
+        async function loadTeamStats() {
+            if (!currentTeam) return;
+            try {
+                const res = await fetch('/api/team-stats');
+                if (res.ok) {
+                    const data = await res.json();
+                    const percent = (data.total_size / data.max_size) * 100;
+                    quotaFill.style.width = `${percent}%`;
+                    
+                    if (percent > 90) {
+                        quotaFill.style.background = 'repeating-linear-gradient(90deg, #f44336 0px, #f44336 8px, #c62828 8px, #c62828 16px)';
+                    } else if (percent > 70) {
+                        quotaFill.style.background = 'repeating-linear-gradient(90deg, #f9a825 0px, #f9a825 8px, #ff6f00 8px, #ff6f00 16px)';
+                    } else {
+                        quotaFill.style.background = 'repeating-linear-gradient(90deg, #4caf50 0px, #4caf50 8px, #2e7d32 8px, #2e7d32 16px)';
+                    }
+                    
+                    quotaValue.textContent = `${data.remaining_formatted} باقیمانده از ${data.max_size_formatted}`;
+                }
+            } catch (e) {
+                console.error('Failed to load team stats:', e);
+            }
+        }
+
+        async function loadFileList() {
+            if (!currentTeam) return;
+            try {
+                const res = await fetch('/api/files');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.files.length === 0) {
+                        fileList.innerHTML = '<div style="text-align: center; color: #90a4ae; padding: 20px;">هیچ فایلی آپلود نشده است</div>';
+                        return;
+                    }
+                    
+                    fileList.innerHTML = data.files.map(file => `
+                        <div class="file-item">
+                            <div class="file-item-info">
+                                <div class="file-item-number">سابمیشن #${file.submit_number}</div>
+                                <div class="file-item-meta">
+                                    <div class="file-item-size">📦 ${formatBytes(file.size)}</div>
+                                    <div class="file-item-date">${new Date(file.uploaded_at).toLocaleString('fa-IR')}</div>
+                                </div>
+                            </div>
+                            <div class="file-item-actions">
+                                <button class="btn btn-small" onclick='showHashModal("${file.hash}")'>🔍 هش</button>
+                                <button class="btn btn-small btn-danger" onclick='deleteFile(${file.id})'>🗑️ حذف</button>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            } catch (e) {
+                console.error('Failed to load files:', e);
+                fileList.innerHTML = '<div style="text-align: center; color: #f44336; padding: 20px;">خطا در بارگذاری فایل‌ها</div>';
+            }
+        }
+
+        async function refreshFileManager() {
+            await Promise.all([loadTeamStats(), loadFileList()]);
+            showToast('success', 'بروزرسانی شد', 'لیست فایل‌ها با موفقیت بروزرسانی شد');
+        }
+
+        function showHashModal(hash) {
+            fileHashInput.value = hash;
+            hashModal.classList.add('show');
+        }
+
+        function closeHashModal() {
+            hashModal.classList.remove('show');
+        }
+
+        function copyHashAndClose() {
+            fileHashInput.select();
+            document.execCommand('copy');
+            showToast('success', 'کپی شد', 'هش فایل با موفقیت کپی شد');
+            setTimeout(() => closeHashModal(), 1000);
+        }
+
+        async function deleteFile(fileId) {
+            if (!confirm('آیا از حذف این فایل اطمینان دارید؟')) {
+                return;
+            }
+            
+            try {
+                const res = await fetch(`/api/files/${fileId}`, {
+                    method: 'DELETE'
+                });
+                
+                if (res.ok) {
+                    showToast('success', 'حذف شد', 'فایل با موفقیت حذف شد');
+                    await refreshFileManager();
+                } else {
+                    const error = await res.json();
+                    showToast('error', 'خطا', error.detail || 'خطا در حذف فایل');
+                }
+            } catch (e) {
+                showToast('error', 'خطا', 'خطا در ارتباط با سرور');
+            }
+        }
+
+        function showToast(type, title, message) {
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = `
+                <div class="toast-title">${title}</div>
+                <div class="toast-message">${message}</div>
+            `;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('hide');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
         }
 
         verifyBtn.addEventListener('click', async () => {
             const code = (codeInput.value || '').trim().toUpperCase();
             if (!code || code.length !== 8) {
-                codeError.style.display = 'block';
-                codeError.textContent = 'کد آپلود باید 8 کاراکتر باشد';
+                showToast('error', 'خطا', 'کد آپلود باید 8 کاراکتر باشد');
                 return;
             }
             
             verifyBtn.disabled = true;
-            codeError.style.display = 'none';
             
             try {
                 const formData = new FormData();
@@ -606,8 +1041,7 @@
                 
                 if (!res.ok) {
                     const errorData = await res.json();
-                    codeError.style.display = 'block';
-                    codeError.textContent = errorData.detail || 'کد نامعتبر است';
+                    showToast('error', 'خطا', errorData.detail || 'کد نامعتبر است');
                     teamInfo.style.display = 'none';
                 } else {
                     const data = await res.json();
@@ -616,10 +1050,12 @@
                     localStorage.setItem('bb_team', JSON.stringify(currentTeam));
                     localStorage.setItem('bb_upload_code', uploadCode);
                     showTeamInfo();
+                    loadTeamStats();
+                    loadFileList();
+                    showToast('success', 'موفق', 'کد تیم تایید شد');
                 }
             } catch (e) {
-                codeError.style.display = 'block';
-                codeError.textContent = 'خطا در ارتباط با سرور';
+                showToast('error', 'خطا', 'خطا در ارتباط با سرور');
             } finally {
                 verifyBtn.disabled = false;
             }
@@ -631,6 +1067,7 @@
             currentTeam = null;
             uploadCode = null;
             hideTeamInfo();
+            showToast('success', 'خروج', 'با موفقیت خارج شدید');
         });
 
         window.addEventListener('load', () => {
@@ -665,12 +1102,13 @@
 
         function uploadFile(file) {
             if (!currentTeam || !uploadCode) {
-                showError('ابتدا کد آپلود تیم خود را تایید کنید');
+                showToast('error', 'خطا', 'ابتدا کد آپلود تیم خود را تایید کنید');
                 return;
             }
-            const validationError = validateFile(file);
-            if (validationError) {
-                showError(validationError);
+            
+            const fileExtension = file.name.split('.').pop().toLowerCase();
+            if (fileExtension !== 'zip') {
+                showToast('error', 'خطا', 'فقط فایل های ZIP مجاز هستند!');
                 return;
             }
 
@@ -692,179 +1130,28 @@
                 }
             });
 
-            xhr.addEventListener('load', () => {
+            xhr.addEventListener('load', async () => {
                 progressContainer.style.display = 'none';
                 
                 if (xhr.status === 200) {
                     const response = JSON.parse(xhr.responseText);
-                    showSuccess(response);
-                } else if (xhr.status === 409) {
-                    const error = JSON.parse(xhr.responseText);
-                    result.innerHTML = `
-                        <div class="result-box result-error">
-                            <div class="result-title">
-                                <span>!</span>
-                                <span>فایل موجود است</span>
-                            </div>
-                            <div class="file-info">
-                                <div class="file-info-item" style="border-right-color: #f9a825;">
-                                    ${error.error}
-                                </div>
-                            </div>
-                            <div class="upload-another">
-                                <button class="btn" id="confirmOverwriteBtn">تایید و جایگزینی</button>
-                            </div>
-                        </div>
-                    `;
-                    result.style.display = 'block';
-                    document.getElementById('confirmOverwriteBtn').addEventListener('click', () => {
-                        sendWithOverwrite(file);
-                    });
+                    showToast('success', 'موفق', 'فایل با موفقیت آپلود شد');
+                    await loadTeamStats();
+                    await loadFileList();
+                    setTimeout(() => resetUpload(), 2000);
                 } else {
                     const error = JSON.parse(xhr.responseText);
-                    showError(error.error || 'آپلود ناموفق بود');
+                    showToast('error', 'خطا', error.error || 'آپلود ناموفق بود');
                 }
             });
 
             xhr.addEventListener('error', () => {
                 progressContainer.style.display = 'none';
-                showError('خطا در اتصال به سرور');
+                showToast('error', 'خطا', 'خطا در اتصال به سرور');
             });
 
             xhr.open('POST', '/api/upload');
             xhr.send(formData);
-        }
-
-        function sendWithOverwrite(file) {
-            if (!currentTeam || !uploadCode) return;
-            const formData = new FormData();
-            const forcedName = `${uploadCode}.zip`;
-            formData.append('file', file, forcedName);
-
-            progressContainer.style.display = 'block';
-            result.style.display = 'none';
-            progressFill.style.width = '0%';
-
-            const xhr = new XMLHttpRequest();
-            xhr.upload.addEventListener('progress', (e) => {
-                if (e.lengthComputable) {
-                    const percent = (e.loaded / e.total) * 100;
-                    progressFill.style.width = percent + '%';
-                    progressText.textContent = `${Math.round(percent)}٪`;
-                }
-            });
-            xhr.addEventListener('load', () => {
-                progressContainer.style.display = 'none';
-                if (xhr.status === 200) {
-                    const response = JSON.parse(xhr.responseText);
-                    showSuccess(response);
-                } else {
-                    const error = JSON.parse(xhr.responseText);
-                    showError(error.error || 'آپلود ناموفق بود');
-                }
-            });
-            xhr.addEventListener('error', () => {
-                progressContainer.style.display = 'none';
-                showError('خطا در اتصال به سرور');
-            });
-            xhr.open('POST', '/api/upload?overwrite=1');
-            xhr.send(formData);
-        }
-
-        function validateFile(file) {
-            const maxSize = 512 * 1024 * 1024;
-            if (file.size > maxSize) {
-                return `حجم فایل بیش از حد مجاز است! حداکثر: 512 مگابایت`;
-            }
-
-            const fileExtension = file.name.split('.').pop().toLowerCase();
-            const fileMimeType = file.type;
-
-            if (fileExtension !== 'zip') {
-                return `فقط فایل های ZIP مجاز هستند!`;
-            }
-
-            if (fileMimeType && !['application/zip', 'application/x-zip-compressed'].includes(fileMimeType)) {
-                return `نوع فایل مجاز نیست! لطفا فایل ZIP معتبر آپلود کنید.`;
-            }
-
-            return null;
-        }
-
-        function showSuccess(data) {
-            const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(data.filename);
-            
-            result.innerHTML = `
-                <div class="result-box result-success">
-                    <div class="result-title">
-                        <span>✓</span>
-                        <span>آپلود موفق!</span>
-                    </div>
-                    <div class="file-info">
-                        <div class="file-info-item">
-                            <strong>نام فایل:</strong>${data.originalName}
-                        </div>
-                        <div class="file-info-item">
-                            <strong>حجم:</strong>${formatBytes(data.size)}
-                        </div>
-                        <div class="file-info-item" style="border-right-color: #4caf50; color: #4caf50;">
-                            ✓ فایل با موفقیت ذخیره شد
-                        </div>
-                    </div>
-                    <div class="bg-primary-midnight rounded p-4 mt-4 border border-primary-cerulean" style="background: #0d2626; border: 3px solid #f9a825; padding: 10px; margin-top: 12px;">
-                        <p style="color: #ffd54f; font-size: 13px; margin-bottom: 8px; font-weight: 600;">🔐 هش فایل (SHA-256):</p>
-                        <div style="display: flex; flex-direction: column; gap: 8px;">
-                            <input type="text" value="${data.hash}" readonly id="fileHash" 
-                                   style="width: 100%; background: #012330; border: 2px solid #f9a825; color: #ffd54f; padding: 8px; font-family: 'Courier', monospace; font-size: 11px; outline: none; border-radius: 0; word-break: break-all;">
-                            <button class="btn btn-small" onclick="copyHash()" style="width: 100%;">کپی هش</button>
-                        </div>
-                        <p style="color: #90a4ae; font-size: 11px; margin-top: 8px; line-height: 1.4;">
-                            این هش را در فرم سابمیشن خود وارد کنید
-                        </p>
-                    </div>
-                    <div class="upload-another">
-                        <button class="btn" onclick="resetUpload()">آپلود فایل جدید</button>
-                    </div>
-                </div>
-            `;
-            result.style.display = 'block';
-        }
-
-        function showError(message) {
-            result.innerHTML = `
-                <div class="result-box result-error">
-                    <div class="result-title">
-                        <span>✗</span>
-                        <span>خطا در آپلود</span>
-                    </div>
-                    <div class="file-info">
-                        <div class="file-info-item" style="border-right-color: #f44336;">
-                            ${message}
-                        </div>
-                    </div>
-                    <div class="upload-another">
-                        <button class="btn" onclick="resetUpload()">تلاش مجدد</button>
-                    </div>
-                </div>
-            `;
-            result.style.display = 'block';
-        }
-
-        function copyHash() {
-            const hashInput = document.getElementById('fileHash');
-            hashInput.select();
-            document.execCommand('copy');
-            
-            // نمایش پیام موفقیت
-            const btn = event.target;
-            const originalText = btn.textContent;
-            btn.textContent = '✓ کپی شد';
-            btn.style.background = '#4caf50';
-            
-            setTimeout(() => {
-                btn.textContent = originalText;
-                btn.style.background = '#f9a825';
-            }, 2000);
         }
 
         function resetUpload() {

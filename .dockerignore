@@ -1,6 +1,64 @@
-__pycache__/
-*.pyc
-.venv/
-venv/
-.git/
+# Git
+.git
+.gitignore
 
+# Python
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info
+.eggs
+*.egg
+
+# Virtual environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local uploads and database (will be volume mounted)
+uploads/*
+!uploads/.gitkeep
+uploads.db
+
+# Documentation (keep README.Docker.md if needed, but usually exclude all MD)
+README.md
+!README.Docker.md
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Docker
+docker-compose.yml
+Dockerfile
+.dockerignore
+
+# Temporary files
+*.tmp
+*.bak
+*.swp

@@ -12,6 +12,7 @@ services:
       - BACKEND_URL=${BACKEND_URL:-https://bugsbuzzy.ir/api}
     volumes:
       - ./uploads:/app/uploads
+      - ./uploads.db:/app/uploads.db
     networks:
       - bugsbuzzy-network
     healthcheck:
@@ -24,7 +25,3 @@ services:
 networks:
   bugsbuzzy-network:
     driver: bridge
-
-volumes:
-  uploads:
-    driver: local
