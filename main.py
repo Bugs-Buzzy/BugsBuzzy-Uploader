@@ -18,6 +18,17 @@ import httpx
 import aiosqlite
 from datetime import datetime
 
+# غیرفعال کردن استفاده از proxy سیستم
+# httpx به طور پیش‌فرض از متغیرهای محیطی proxy استفاده می‌کند
+os.environ.pop('HTTP_PROXY', None)
+os.environ.pop('HTTPS_PROXY', None)
+os.environ.pop('http_proxy', None)
+os.environ.pop('https_proxy', None)
+os.environ.pop('ALL_PROXY', None)
+os.environ.pop('all_proxy', None)
+os.environ.pop('NO_PROXY', None)
+os.environ.pop('no_proxy', None)
+
 app = FastAPI(title="BugsBuzzy Upload Server")
 BASE_DIR = Path(__file__).resolve().parent
 UPLOAD_DIR = BASE_DIR / "uploads"
@@ -370,7 +381,7 @@ async def verify_upload_code(request: Request, code: str = Form(...)):
             f"{BACKEND_URL}/gamejam/verify-team-code/",   # بعد GameJam
         ]
         
-        async with httpx.AsyncClient(timeout=10.0) as client:
+        async with httpx.AsyncClient(timeout=10.0, proxies=None) as client:
             last_error = None
             
             for verify_url in endpoints:
@@ -456,9 +467,21 @@ app.mount("/", StaticFiles(directory=str(PUBLIC_DIR), html=True), name="public")
 
 if __name__ == "__main__":
     import uvicorn
+    import multiprocessing
+    
+    # برای production: استفاده از چند worker
+    # برای development: یک worker با reload
+    workers = 1  # برای development
+    reload = True  # برای development
+    
+    # اگر می‌خواهید برای production استفاده کنید، این خطوط رو uncomment کنید:
+    # workers = multiprocessing.cpu_count() * 2 + 1
+    # reload = False
+    
     uvicorn.run(
         "main:app",
         host="0.0.0.0",
         port=9000,
-        reload=True
+        workers=workers,
+        reload=reload
     )
