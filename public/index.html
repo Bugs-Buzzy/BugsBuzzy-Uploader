@@ -783,7 +783,7 @@
                         <strong>تعداد اعضا:</strong> <span id="teamMemberCount"></span>
                     </div>
                     <div class="file-info-item" style="border-right-color: #4caf50;">
-                        <strong>هش بررسی:</strong> <span id="teamHash"></span>
+                        <strong>هش بررسی:</strong> <span id="teamHash" style="direction: ltr; unicode-bidi: isolate;"></span>
                     </div>
                 </div>
                 <div id="codeError" class="file-info-item" style="margin-top:10px; display:none; border-right-color: #f44336; color: #f44336;"></div>
@@ -880,22 +880,13 @@
             }
         }
 
-        async function showTeamInfo() {
+        function showTeamInfo() {
             if (currentTeam && uploadCode) {
                 teamInfo.style.display = 'block';
                 codeError.style.display = 'none';
                 teamName.textContent = currentTeam.name;
                 teamLeader.textContent = `${currentTeam.leader.first_name} ${currentTeam.leader.last_name}`;
                 teamMemberCount.textContent = currentTeam.member_count;
-                
-                // محاسبه و نمایش هش بررسی
-                try {
-                    const hash = await generateHash(uploadCode, uploadCode);
-                    teamHash.textContent = hash;
-                } catch (e) {
-                    console.error('Error generating hash:', e);
-                    teamHash.textContent = 'خطا در محاسبه';
-                }
                 
                 logoutBtn.style.display = 'inline-block';
                 verifyBtn.textContent = 'تغییر کد';
@@ -938,6 +929,11 @@
                     }
                     
                     quotaValue.textContent = `${data.remaining_formatted} باقیمانده از ${data.max_size_formatted}`;
+                    
+                    // نمایش هش بررسی
+                    if (data.verification_hash) {
+                        teamHash.textContent = data.verification_hash;
+                    }
                 }
             } catch (e) {
                 console.error('Failed to load team stats:', e);
@@ -1185,26 +1181,6 @@
             const sizes = ['بایت', 'کیلوبایت', 'مگابایت', 'گیگابایت'];
             const i = Math.floor(Math.log(bytes) / Math.log(k));
             return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
-        }
-
-        async function generateHash(solver_group_id, private_key) {
-            // 1. الحاق رشته‌ها
-            const combined = `${solver_group_id}:${private_key}`;
-            
-            // 2. محاسبه هش SHA-256
-            const encoder = new TextEncoder();
-            const data = encoder.encode(combined);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-            
-            // 3. تبدیل به Base64 URL-safe و حذف پدینگ
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            const hashBase64 = btoa(String.fromCharCode(...hashArray))
-                .replace(/\+/g, '-')
-                .replace(/\//g, '_')
-                .replace(/=/g, '');
-            
-            // 4. منطق 10 کاراکتری (ابتدا به 10 کاراکتر برش زده، سپس اگر کمتر بود با - پر می‌کند)
-            return hashBase64.substring(0, 10).padEnd(10, '-');
         }
     </script>
 </body>

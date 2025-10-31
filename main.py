@@ -2,6 +2,7 @@ import os
 import hashlib
 import json
 import tempfile
+import base64
 from pathlib import Path
 from typing import Optional
 from fastapi import FastAPI, File, UploadFile, HTTPException, Request, Form
@@ -176,8 +177,12 @@ async def get_team_stats(request: Request):
         raise HTTPException(status_code=401, detail='ابتدا باید کد آپلود تیم را تأیید کنید')
     
     team_number = str(request.session.get("team_id"))
+    upload_code = request.session.get("upload_code")
     total_size = await get_team_total_size(team_number)
     remaining = MAX_TEAM_TOTAL_SIZE - total_size
+    
+    # محاسبه هش بررسی
+    verification_hash = generate_hash(upload_code, upload_code) if upload_code else None
     
     return {
         "total_size": total_size,
@@ -185,7 +190,8 @@ async def get_team_stats(request: Request):
         "remaining": remaining,
         "total_size_formatted": format_bytes(total_size),
         "max_size_formatted": format_bytes(MAX_TEAM_TOTAL_SIZE),
-        "remaining_formatted": format_bytes(remaining)
+        "remaining_formatted": format_bytes(remaining),
+        "verification_hash": verification_hash
     }
 
 @app.get("/api/files")
@@ -413,6 +419,24 @@ async def verify_upload_code(request: Request, code: str = Form(...)):
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"خطای سرور: {str(e)}")
+
+def generate_hash(solver_group_id: str, private_key: str) -> str:
+    """Generate hash for team verification"""
+    # 1. الحاق رشته‌ها
+    combined = f"{solver_group_id}:{private_key}"
+    
+    # 2. محاسبه هش SHA-256
+    # (نیاز به انکود کردن رشته به بایت)
+    raw = hashlib.sha256(combined.encode('utf-8')).digest()
+    
+    # 3. & 4. تبدیل به Base64 URL-safe و حذف پدینگ
+    # (urlsafe_b64encode جای + و / را عوض می‌کند)
+    b64_bytes = base64.urlsafe_b64encode(raw)
+    b64 = b64_bytes.decode('utf-8').replace("=", "")
+    
+    # 5. منطق 10 کاراکتری
+    # (ابتدا به 10 کاراکتر برش زده، سپس اگر کمتر بود با - پر می‌کند)
+    return b64[:10].ljust(10, '-')
 
 def format_bytes(bytes_size):
     """Format bytes to human readable format"""
