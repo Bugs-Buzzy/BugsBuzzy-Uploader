@@ -374,7 +374,7 @@ async def verify_upload_code(request: Request, code: str = Form(...)):
                     if response.status_code == 200:
                         data = response.json()
                         # ذخیره اطلاعات تیم در session
-                        request.session["team_id"] = data["team"]["id"]
+                        request.session["team_id"] = data["team"]["team_number"] or code
                         request.session["team_name"] = data["team"]["name"]
                         request.session["upload_code"] = code
                         request.session["verified"] = True
