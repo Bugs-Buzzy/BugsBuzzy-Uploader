@@ -9,7 +9,7 @@ COPY requirements.txt ./
 RUN apt-get update \
     && apt-get install -y --no-install-recommends build-essential gcc \
     && pip install --upgrade pip wheel \
-    && pip install --user --no-cache-dir -r requirements.txt
+    && pip install --no-cache-dir -r requirements.txt
 
 # --- Runtime stage ---
 FROM python:3.11-slim AS runtime
@@ -28,9 +28,9 @@ RUN apt-get update \
 # Create unprivileged user
 RUN adduser --disabled-password --no-create-home --gecos '' appuser
 
-# Copy only site-packages from build, not full Python env
-COPY --from=build /root/.local /root/.local
-ENV PATH="/root/.local/bin:$PATH"
+# Copy Python packages from build stage (installed system-wide)
+COPY --from=build /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
+COPY --from=build /usr/local/bin /usr/local/bin
 
 COPY main.py ./
 COPY gunicorn_config.py ./
